@@ -21,5 +21,10 @@ public class ProductController {
     public Response<List<ProductResponseDto>> getAllProductList(){
         return Response.success(productService.getAllProducts());
     }
-    
+
+    @PostMapping("/api/v1/products")
+    public Response<Void> saveProducts(@RequestBody ProductCreateRequestDto requestDto){
+        productService.saveNewProduct(requestDto);
+        return Response.success();
+    }
 }
