@@ -7,7 +7,7 @@ public record Response<T>(String resultCode, T data) {
     }
 
     public static Response<Void> success() {
-        return new Response<Void>("SUCCESS", null);
+        return new Response<>("SUCCESS", null);
     }
 
     public static <T> Response<T> success(T result) {
