@@ -19,5 +19,9 @@ public class ProductService {
                 .map(ProductResponseDto::of)
                 .toList();
     }
-    
+
+    public void saveNewProduct(ProductCreateRequestDto requestDto) {
+        Product product = Product.fromCreateDto(requestDto);
+        productRepository.save(product);
+    }
 }
