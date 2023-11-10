@@ -8,12 +8,11 @@ CREATE TABLE `products` (
                             `category` varchar(50) NOT NULL,
                             `price` bigint NOT NULL,
                             `description` varchar(50) DEFAULT NULL,
-                            `product_img` varchar(255) DEFAULT NULL,
+                            `product_img` mediumblob DEFAULT NULL,
                             `created_at` datetime(6) NOT NULL,
                             `updated_at` datetime(6) DEFAULT NULL,
                             PRIMARY KEY (`product_id`)
 );
-
 
 
 CREATE DATABASE IF NOT EXISTS coffee_test;
@@ -26,7 +25,7 @@ CREATE TABLE `products` (
                             `category` varchar(50) NOT NULL,
                             `price` bigint NOT NULL,
                             `description` varchar(50) DEFAULT NULL,
-                            `product_img` varchar(255) DEFAULT NULL,
+                            `product_img` mediumblob DEFAULT NULL,
                             `created_at` datetime(6) NOT NULL,
                             `updated_at` datetime(6) DEFAULT NULL,
                             PRIMARY KEY (`product_id`)
