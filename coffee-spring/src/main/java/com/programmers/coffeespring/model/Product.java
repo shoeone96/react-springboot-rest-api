@@ -15,12 +15,12 @@ public class Product {
     private String productName;
     private Category category;
     private long price;
-    private String productImg;
+    private byte[] productImg;
     private String description;
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    private Product(String productName, Category category, long price, String productImg, String description) {
+    private Product(String productName, Category category, long price, byte[] productImg, String description) {
         this.productName = productName;
         this.category = category;
         this.price = price;
@@ -31,7 +31,7 @@ public class Product {
     }
 
 
-    public static Product fromCreateDto(ProductCreateRequestDto requestDto, String img){
+    public static Product fromCreateDto(ProductCreateRequestDto requestDto, byte[] img){
         return new Product(
                 requestDto.productName(),
                 requestDto.category(),
@@ -41,7 +41,7 @@ public class Product {
                 );
     }
 
-    public static Product fromDbMapper(Long productId, String productName, Category category, long price, String productImg, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public static Product fromDbMapper(Long productId, String productName, Category category, long price, byte[] productImg, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
         return new Product(
                 productId,
                 productName,

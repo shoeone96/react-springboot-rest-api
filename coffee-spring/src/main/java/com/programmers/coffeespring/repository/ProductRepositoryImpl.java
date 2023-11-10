@@ -21,7 +21,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class ProductRepositoryImpl implements ProductRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final String TABLE = "products";
 
     @Override
     public List<Product> findAll() {
@@ -63,7 +62,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             resultSet.getString("product_name"),
             Category.valueOf(resultSet.getString("category")),
             resultSet.getLong("price"),
-            resultSet.getString("product_img"),
+            resultSet.getBytes("product_img"),
             resultSet.getString("description"),
             resultSet.getObject("created_at", LocalDateTime.class),
             resultSet.getObject("updated_at", LocalDateTime.class)
