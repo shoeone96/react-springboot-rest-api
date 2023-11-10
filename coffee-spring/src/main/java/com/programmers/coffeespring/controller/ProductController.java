@@ -6,10 +6,8 @@ import com.programmers.coffeespring.dto.Response;
 import com.programmers.coffeespring.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class ProductController {
     }
 
     @PostMapping("/api/v1/products")
-    public Response<Void> saveProducts(@Validated @RequestBody ProductCreateRequestDto requestDto){
+    public Response<Void> saveProducts(@ModelAttribute ProductCreateRequestDto requestDto){
         productService.saveNewProduct(requestDto);
         return Response.success();
     }
