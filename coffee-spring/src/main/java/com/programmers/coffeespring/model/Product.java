@@ -31,12 +31,12 @@ public class Product {
     }
 
 
-    public static Product fromCreateDto(ProductCreateRequestDto requestDto){
+    public static Product fromCreateDto(ProductCreateRequestDto requestDto, String img){
         return new Product(
                 requestDto.productName(),
                 requestDto.category(),
                 requestDto.price(),
-                requestDto.productImg(),
+                img,
                 requestDto.description()
                 );
     }

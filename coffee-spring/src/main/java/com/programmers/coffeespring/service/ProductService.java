@@ -4,6 +4,7 @@ import com.programmers.coffeespring.dto.ProductCreateRequestDto;
 import com.programmers.coffeespring.dto.ProductResponseDto;
 import com.programmers.coffeespring.model.Product;
 import com.programmers.coffeespring.repository.ProductRepository;
+import com.programmers.coffeespring.util.ImgUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,8 @@ public class ProductService {
     }
 
     public void saveNewProduct(ProductCreateRequestDto requestDto) {
-        Product product = Product.fromCreateDto(requestDto);
+        String img = ImgUtil.saveImage(requestDto.productImg());
+        Product product = Product.fromCreateDto(requestDto, img);
         productRepository.save(product);
     }
 }
