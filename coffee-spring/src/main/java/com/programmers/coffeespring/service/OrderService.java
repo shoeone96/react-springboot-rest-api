@@ -6,6 +6,7 @@ import com.programmers.coffeespring.exception.CafeException;
 import com.programmers.coffeespring.exception.ErrorCode;
 import com.programmers.coffeespring.model.Order;
 import com.programmers.coffeespring.model.Voucher;
+import com.programmers.coffeespring.model.VoucherType;
 import com.programmers.coffeespring.model.VoucherValid;
 import com.programmers.coffeespring.repository.OrderRepository;
 import com.programmers.coffeespring.repository.ProductRepository;
@@ -28,21 +29,13 @@ public class OrderService {
 
     public void orderWithVoucher(OrderRequestDto requestDto) {
         checkingProduct(requestDto);
-        checkingTotalPrice(requestDto);
-        checkingVoucher(requestDto.getVoucherId());
+        Voucher voucher = checkingVoucher(requestDto.getVoucherId());
+        checkingTotalPriceWithVoucher(requestDto, voucher);
         Order order = Order.createOrder(requestDto);
         orderRepository.insertWithVoucher(order);
     }
 
-    private void checkingVoucher(Long voucherId) {
-        Voucher voucher = voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new CafeException(ErrorCode.VOUCHER_NOT_FOUND));
-        if(voucher.getVoucherValid() != VoucherValid.VALID){
-            throw new CafeException(ErrorCode.VOUCHER_NOT_VALID);
-        }
-    }
-
-    private static void checkingTotalPrice(OrderRequestDto requestDto) {
+    private void checkingTotalPrice(OrderRequestDto requestDto) {
         Long sum = requestDto.getOrderItems()
                 .stream()
                 .map(orderItems -> orderItems.price() * orderItems.quantity())
@@ -50,6 +43,36 @@ public class OrderService {
         if(sum != requestDto.getTotalPrice()){
             throw new CafeException(ErrorCode.INVALID_TOTAL_PRICE);
         }
+    }
+
+    private Voucher checkingVoucher(Long voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new CafeException(ErrorCode.VOUCHER_NOT_FOUND));
+        if(voucher.getVoucherValid() != VoucherValid.VALID){
+            throw new CafeException(ErrorCode.VOUCHER_NOT_VALID);
+        }
+        return voucher;
+    }
+
+    private void checkingTotalPriceWithVoucher(OrderRequestDto requestDto, Voucher voucher) {
+        Long sum = requestDto.getOrderItems()
+                .stream()
+                .map(orderItems -> orderItems.price() * orderItems.quantity())
+                .reduce(0L, Long::sum);
+        sum = voucherUsedSum(voucher, sum);
+        if(sum != requestDto.getTotalPrice()){
+            throw new CafeException(ErrorCode.INVALID_TOTAL_PRICE);
+        }
+    }
+
+    private static Long voucherUsedSum(Voucher voucher, Long sum) {
+        if(voucher.getVoucherType() == VoucherType.FIXED) {
+            sum -= voucher.getDiscountValue();
+        }
+        if(voucher.getVoucherType() == VoucherType.PERCENT){
+            sum = sum *(100 - voucher.getDiscountValue());
+        }
+        return sum;
     }
 
     private void checkingProduct(OrderRequestDto requestDto) {
