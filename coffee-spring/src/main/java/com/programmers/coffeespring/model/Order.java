@@ -27,9 +27,9 @@ public class Order {
 
     public static Order createOrder(OrderRequestDto requestDto) {
         return new Order(
-                requestDto.voucherId(),
-                requestDto.totalPrice(),
-                requestDto.orderItems()
+                requestDto.getVoucherId(),
+                requestDto.getTotalPrice(),
+                requestDto.getOrderItems()
         );
     }
 }
