@@ -4,28 +4,21 @@ import com.programmers.coffeespring.dto.ProductCreateRequestDto;
 import com.programmers.coffeespring.dto.ProductResponseDto;
 import com.programmers.coffeespring.exception.CafeException;
 import com.programmers.coffeespring.exception.ErrorCode;
+import com.programmers.coffeespring.model.Category;
 import com.programmers.coffeespring.model.Product;
 import com.programmers.coffeespring.repository.ProductRepository;
-import com.programmers.coffeespring.util.ImgUtil;
-import javafx.scene.image.Image;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.zip.DataFormatException;
-import java.util.zip.Deflater;
-import java.util.zip.Inflater;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
-    public List<ProductResponseDto> getAllProducts() {
-        return productRepository.findAll()
+    public List<ProductResponseDto> getProductsByCategory(Category category) {
+        return productRepository.findAllByCategory(category)
                 .stream()
                 .map(ProductResponseDto::of)
                 .toList();
