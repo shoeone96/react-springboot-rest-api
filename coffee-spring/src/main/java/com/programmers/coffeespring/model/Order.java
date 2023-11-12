@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 public class Order {
 
-    private long orderId;
+    private Long orderId;
     private long voucherId;
     private long totalPrice;
     private LocalDateTime createdAt;
@@ -27,7 +27,7 @@ public class Order {
 
     public static Order createOrder(OrderRequestDto requestDto) {
         return new Order(
-                requestDto.VoucherId(),
+                requestDto.voucherId(),
                 requestDto.totalPrice(),
                 requestDto.orderItems()
         );

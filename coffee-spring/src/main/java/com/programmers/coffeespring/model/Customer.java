@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Getter
 public class Customer {
 
-    private long customerId;
+    private Long customerId;
     private String customerName;
     private String username;
     private String password;
